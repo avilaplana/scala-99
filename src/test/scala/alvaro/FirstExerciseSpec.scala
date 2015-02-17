@@ -15,7 +15,7 @@ object Finder {
   }
 }
 
-class FirstExerciseSpec extends FlatSpec with Matchers {
+class P01Spec.scala extends FlatSpec with Matchers {
 
   import Finder._
 
