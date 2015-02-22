@@ -11,13 +11,13 @@ class P02Spec extends FlatSpec with Matchers {
 
   it should "throw exception for an empty list" in {
     intercept[NoSuchElementException] {
-      penultimate[String](List())
+      penultimate(List())
     }
   }
 
   it should "throw exception for a one-element list" in {
     intercept[NoSuchElementException] {
-      penultimate(List(1)) shouldBe None
+      penultimate(List(1))
     }
   }
 
@@ -30,7 +30,7 @@ class P02Spec extends FlatSpec with Matchers {
   }
 
   it should "pass the given example" in {
-    penultimate(List(1, 1, 2, 3, 5, 8)) shouldBe 5
+    penultimate(List(1, "a", 2, 3, 5, 8)) shouldBe 5
   }
 
 }
