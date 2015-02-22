@@ -26,4 +26,9 @@ class P01Spec extends FlatSpec with Matchers {
   it should "return the last element in a 8 element list" in {
     last(List(1,2,3,4,5,6,7,8)) shouldBe 8
   }
+
+  it should "pass the given example" in {
+    last(List(1, 1, 2, 3, 5, 8)) shouldBe 8
+  }
+
 }
