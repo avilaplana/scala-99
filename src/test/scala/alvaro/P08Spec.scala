@@ -38,8 +38,8 @@ class P08Spec extends WordSpecLike with Matchers {
       compress(List('a', 'b', 'b')) shouldBe List('a', 'b')
     }
     "return list ('a, 'b, 'c, 'a, 'd, 'e') when the list is ('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)" in {
-      compress(List('a', 'a', 'a', 'a', 'b', 'c', 'c', 'a', 'a', 'd', 'e', 'e', 'e', 'e'))
-      shouldBe List('a', 'b', 'c', 'a', 'd', 'e')
+      compress(List('a', 'a', 'a', 'a', 'b', 'c', 'c', 'a', 'a', 'd', 'e', 'e', 'e', 'e')) shouldBe
+        List('a', 'b', 'c', 'a', 'd', 'e')
     }
 
   }
