@@ -2,8 +2,8 @@ package fran
 
 import java.util.NoSuchElementException
 
-import org.scalatest.{Matchers, FlatSpec}
-import P01.last
+import fran.P01.last
+import org.scalatest.{FlatSpec, Matchers}
 
 class P01Spec extends FlatSpec with Matchers {
 
@@ -11,7 +11,7 @@ class P01Spec extends FlatSpec with Matchers {
 
   it should "return None if an empty list is passed on" in {
     intercept[NoSuchElementException] {
-      last[String](List())
+      last(List())
     }
   }
 
