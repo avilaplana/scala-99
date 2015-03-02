@@ -5,18 +5,18 @@ import org.scalatest.{Matchers, WordSpec}
 
 class P02Spec extends WordSpec with Matchers {
 
-  "P02Spec" should {
+  "P02 Spec" should {
 
     "return Nil on empty list" in {
-      penultimate(List())
+      penultimate(List()) shouldBe None
     }
 
     "return nil on nil list" in {
-      penultimate(Nil)
+      penultimate(Nil) shouldBe None
     }
 
     "return None for a list with one element" in {
-      assert(penultimate(List(2)) == None)
+      penultimate(List(2)) shouldBe None
 
     }
 

@@ -5,14 +5,14 @@ import org.scalatest.{WordSpec, Matchers, FlatSpec}
 
 class P01Spec extends WordSpec with Matchers {
 
-  "P01Spec" should {
+  "P01 Spec" should {
 
     "return Nil on empty list" in {
-      last(List())
+      last(List()) shouldBe None
     }
 
     "return nil on nil list" in {
-      last(Nil)
+      last(Nil) shouldBe None
     }
 
     "return last element for a list with one element" in {
