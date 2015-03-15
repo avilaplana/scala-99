@@ -2,13 +2,16 @@ package alvaro
 
 import org.scalatest.{Matchers, WordSpecLike}
 
+object P31 {
+  def isPrime(p: Int): Boolean = Range(1, p + 1).filter(p % _ == 0) == Seq(1, p)
+}
+
 //Determine whether a given integer number is prime.
 class P31Spec extends WordSpecLike with Matchers {
 
-  def isPrime(p: Int): Boolean = Range(1, p + 1).filter(p % _ == 0) == Seq(1, p)
-
-
   "isPrime" should {
+
+    import P31._
     "return false when the number is 1" in {
       isPrime(1) shouldBe false
     }
