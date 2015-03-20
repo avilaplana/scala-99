@@ -9,11 +9,14 @@ that are coprime to m.
 scala> 10.totient
 res0: Int = 4
 */
+
+object P34 {
+  import P32._
+  def totient: Int => Int = m => Range(1, m + 1).filter(gcd(_, m) == 1).size
+}
 class P34Spec extends WordSpecLike with Matchers {
 
-  import P32._
-
-  val totient: Int => Int = m => Range(1, m + 1).filter(gcd(_, m) == 1).size
+  import P34._
 
   "totient" should {
     "return 4 when the number is 10" in {
