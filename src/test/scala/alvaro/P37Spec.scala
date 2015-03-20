@@ -8,9 +8,8 @@ object P37 {
   import scala.math._
 
   def totient(m: Int): Double =
-    m.primeFactors.toMultilicityMap.map {
-      b => (b._1.toDouble - 1) * pow(b._1.toDouble, b._2 - 1)
-    }.foldLeft(1D) { (p, e) => p * e}
+    m.primeFactors.toMultilicityMap.map { case (f,m) => (f.toDouble - 1) * pow(f.toDouble, m - 1) }
+      .foldLeft(1D) { (p, e) => p * e}
 }
 
 class P37Spec extends WordSpecLike with Matchers {
