@@ -19,7 +19,6 @@ class P49Spec extends WordSpecLike with Matchers {
 
   import P49._
 
-
   "1" should {
     "be 0,1" in {
       grayCode(1) shouldBe List("0", "1")
