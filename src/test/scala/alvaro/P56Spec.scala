@@ -12,60 +12,90 @@ import org.scalatest.{Matchers, WordSpecLike}
 //scala> Node('a', Node('b'), Node('c')).isSymmetric
 //res0: Boolean = true
 
-object P56 {
-  implicit class TreeUtils(left: Tree[Char]) {
-    def isSymmetric(right: Tree[Char]): Boolean = {
+object TreeUtils {
+  implicit class TreeMirror(left: Tree[Char]) {
+    def isMirrorOf(right: Tree[Char]): Boolean = {
       (left, right) match {
+        case (End, End) => true
         case (Node(_, End, End), Node(_, End, End)) => true
-        case (Node(_, a, End), Node(_, c, End)) => a.isSymmetric(c)
-        case (Node(_, End, b), Node(_, End, d)) => b.isSymmetric(d)
-        case (Node(_, a, b), Node(_, c, d)) => a.isSymmetric(c) && b.isSymmetric(d)
+        case (Node(_, a, End), Node(_, c, End)) => a.isMirrorOf(c)
+        case (Node(_, End, b), Node(_, End, d)) => b.isMirrorOf(d)
+        case (Node(_, a, b), Node(_, c, d)) => a.isMirrorOf(c) && b.isMirrorOf(d)
         case (_, _) => false
       }
     }
+  }
+  
+  implicit class NodeSimmetry(node: Node[Char]){
+    def isSymmetric = node.left.isMirrorOf(node.right)
   }
 }
 
 
 class P56Spec extends WordSpecLike with Matchers {
 
-  import P56._
+  import TreeUtils._
 
   "isMirrorOf" should {
-    "be true when the tree in the left is the same than the tree in the right 1" in {
+    "be true when both trees has the same structure 1" in {
+      val tree1: Tree[Char] = End
+      val tree2: Tree[Char] = End
+
+      tree1.isMirrorOf(tree2) shouldBe true
+    }
+
+    "be true when both trees has the same structure 2" in {
       val tree1: Tree[Char] = Node('a', End, End)
       val tree2: Tree[Char] = Node('a', End, End)
 
-      tree1.isSymmetric(tree2) shouldBe true
+      tree1.isMirrorOf(tree2) shouldBe true
     }
 
-    "be true when the tree in the left is the same than the tree in the right 2" in {
+    "be true when both trees has the same structure 3" in {
       val tree1 = Node('a', Node('b'), End)
       val tree2 = Node('a', Node('b'), End)
 
-      tree1.isSymmetric(tree2) shouldBe true
+      tree1.isMirrorOf(tree2) shouldBe true
     }
 
-    "be true when the tree in the left is the same than the tree in the right 3" in {
+    "be true when both trees has the same structure 4" in {
       val tree1 = Node('a', End, Node('b'))
       val tree2 = Node('a', End, Node('b'))
 
-      tree1.isSymmetric(tree2) shouldBe true
+      tree1.isMirrorOf(tree2) shouldBe true
     }
 
-    "be true when the tree in the left is the same than the tree in the right 4" in {
+    "be true when both trees has the same structure 5" in {
       val tree1 = Node('a', Node('a', End, Node('b')), Node('b'))
       val tree2 = Node('b', Node('c', End, Node('d')), Node('f'))
 
-      tree1.isSymmetric(tree2) shouldBe true
+      tree1.isMirrorOf(tree2) shouldBe true
     }
 
 
-    "be false when the tree in the left is the same than the tree in the right 5" in {
+    "be false when both trees has no the same structure" in {
       val tree1 = Node('a', Node('a', End, Node('b')), Node('b'))
       val tree2 = Node('a', Node('a', End, Node('b')), End)
 
-      tree1.isSymmetric(tree2) shouldBe false
+      tree1.isMirrorOf(tree2) shouldBe false
+    }
+  }
+
+  "isSymmetric" should {
+    "be true when the left node has the same structure as the node on the right" in {
+      Node('a', End, End).isSymmetric shouldBe true
+    }
+
+    "be true when the left node has the same structure as the node on the right 2" in {
+      Node('a', Node('b'), Node('c')).isSymmetric shouldBe true
+    }
+
+    "be true when the left node has the same structure as the node on the right 3" in {
+      Node('a', Node('a', Node('b'), Node('c')), Node('a', Node('b'), Node('c'))).isSymmetric shouldBe true
+    }
+
+    "be true when the left node has the no same structure as the node on the right" in {
+      Node('a', Node('a', Node('b'), Node('c')), Node('a', Node('b'), End)).isSymmetric shouldBe false
     }
   }
 
