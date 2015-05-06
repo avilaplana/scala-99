@@ -3,6 +3,19 @@ package haroon
 
 import org.scalatest.{WordSpec, Matchers}
 
+object P04 {
+
+  def length (list: List[Any]) : Int = {
+    var len = 0
+    var newList = list
+    while (!newList.isEmpty) {
+      len += 1
+      newList = newList.tail
+    }
+    len
+  }
+}
+
 class P04Spec extends WordSpec with Matchers {
 
   "P04 Spec" should {
