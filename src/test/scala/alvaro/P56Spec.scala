@@ -13,8 +13,8 @@ import org.scalatest.{Matchers, WordSpecLike}
 //res0: Boolean = true
 
 object TreeUtils {
-  implicit class TreeMirror(left: Tree[Char]) {
-    def isMirrorOf(right: Tree[Char]): Boolean = {
+  implicit class TreeMirror[T](left: Tree[T]) {
+    def isMirrorOf(right: Tree[T]): Boolean = {
       (left, right) match {
         case (End, End) => true
         case (Node(_, End, End), Node(_, End, End)) => true
@@ -26,8 +26,11 @@ object TreeUtils {
     }
   }
   
-  implicit class NodeSimmetry(node: Node[Char]){
-    def isSymmetric = node.left.isMirrorOf(node.right)
+  implicit class NodeSimmetry[T](node: Tree[T]){
+    def isSymmetric = node match {
+      case End => true
+      case Node(v, l, r) => l.isMirrorOf(r)
+    }
   }
 }
 
