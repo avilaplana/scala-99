@@ -17,9 +17,6 @@ object TreeUtils {
     def isMirrorOf(right: Tree[T]): Boolean = {
       (left, right) match {
         case (End, End) => true
-        case (Node(_, End, End), Node(_, End, End)) => true
-        case (Node(_, a, End), Node(_, c, End)) => a.isMirrorOf(c)
-        case (Node(_, End, b), Node(_, End, d)) => b.isMirrorOf(d)
         case (Node(_, a, b), Node(_, c, d)) => a.isMirrorOf(c) && b.isMirrorOf(d)
         case (_, _) => false
       }
