@@ -1,4 +1,4 @@
-package alvaro.fpInScala
+package alvaro.fpInScala.exercise4_1
 
 import org.scalatest.{Matchers, WordSpecLike}
 
