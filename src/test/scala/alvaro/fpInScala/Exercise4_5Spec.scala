@@ -12,8 +12,8 @@ import org.scalatest.{Matchers, WordSpecLike}
 class Exercise4_5Spec extends WordSpecLike with Matchers {
 
   def sequence[A](a: List[Option[A]]): Option[List[A]] = {
-    a.filter(_.isDefined) match {
-      case l if l.size == a.size => Some(l.collect { case Some(e) => e })
+    a.collect{ case Some(e) => e } match {
+      case l if l.size == a.size => Some(l)
       case _ => None
     }
   }
