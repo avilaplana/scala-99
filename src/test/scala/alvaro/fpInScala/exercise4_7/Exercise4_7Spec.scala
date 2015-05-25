@@ -22,7 +22,9 @@ trait Either[+E, +A] {
       case (Left(e), _) => Left(e)
     }
   }
+
 }
+
 case class Left[+E](value: E) extends Either[E, Nothing]
 case class Right[+A](value: A) extends Either[Nothing, A]
 
