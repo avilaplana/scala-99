@@ -19,39 +19,58 @@ import org.scalatest.{Matchers, WordSpecLike}
 object CalculatorService {
 
 
-  case class Time(hour: Int, min: Int, sec: Int) {
-    def seconds: Int = hour * 60 * 60 + min * 60 + sec
+  val SecondsPerHour = 3600
+  val SecondsPerMinute = 60
 
-    def calc: Int = {
-      if (min <= 4) (min * 60 + sec) * 3
-      else {
-        val total = (hour * 60 + min) * 150
-        if (sec > 0) total + 150 else total
+  case class Time(hour: Int, min: Int, sec: Int) {
+
+    if (min > 60 || sec > 60) throw new IllegalArgumentException("Minutes and seconds must be less than 60")
+
+    val totalSecs: Int = hour * SecondsPerHour + min * SecondsPerMinute + sec
+
+    def cost: Int = {
+      val lessThanFourMinutes: Int => Boolean = _ <= 240
+      val lastMinStarted: Int => Boolean = _ % 60 != 0
+
+      totalSecs match {
+        case s if lessThanFourMinutes(s) => s * 3
+        case s if lastMinStarted(s) => (s / 60) * 150 + 150
+        case s => (s / 60) * 150
       }
     }
   }
+
 
   case class Number(n: String) extends AnyVal
 
   case class TelephoneCall(time: Time, number: Number)
 
   object TelephoneCall {
-    def apply(call: String): TelephoneCall = {
-      val c = call.split(",")
-      val t = c(0).split(":")
+    val regEx = "([0-9]{2}):([0-5]?[0-9]):([0-5]?[0-9]),(.*)".r
 
-      TelephoneCall(
-        time = Time(t(0).toInt, t(1).toInt, t(2).toInt),
-        number = Number(c(1))
-      )
+    def apply(call: String): TelephoneCall = {
+      regEx findFirstMatchIn call match {
+        case Some(m) =>
+          TelephoneCall(
+            time = Time(
+              hour = m.group(1).toInt,
+              min = m.group(2).toInt,
+              sec = m.group(3).toInt),
+            number = Number(m.group(4))
+          )
+        case None => throw new IllegalArgumentException(s"The format of $call is not correct")
+      }
     }
   }
 
-  def cost(calls: Seq[String]): Seq[Int] = {
-    val allCalls: Seq[TelephoneCall] = calls.map(TelephoneCall(_))
-    val totByNumber: List[(Number, Int)] = allCalls.groupBy(_.number).map(a =>(a._1, a._2.map(_.time.seconds).sum)).toList
-    val freeNumber: Number = totByNumber.sortWith((n1,n2) => n1._2 > n2._2).head._1
-    allCalls.map(c => if (c.number == freeNumber) 0 else c.time.calc)
+  def cost(c: Seq[String]): Seq[Int] = {
+    val calls: Seq[TelephoneCall] = c.map(TelephoneCall(_))
+    val secondsByNum: List[(Number, Int)] = calls.groupBy(_.number).map(a => (a._1, a._2.map(_.time.totalSecs).sum)).toList
+    val freeNumber: Number = secondsByNum.sortWith((n1, n2) => n1._2 > n2._2).head._1
+    calls.map {
+      case c if (c.number == freeNumber) => 0
+      case c => c.time.cost
+    }
   }
 }
 
