@@ -43,7 +43,7 @@ object CalculatorService {
     }
   }
 
-  def cost(c: String): Int = {
+  def solution(c: String): Int = {
 
     val logs = c.lines.toSeq
     if (logs.isEmpty || logs.size > 100) throw new IllegalArgumentException(s"Number of calls must between 1..100")
@@ -161,7 +161,7 @@ class Sky1Spec extends WordSpecLike with Matchers {
 
   "2 calls" should {
     "cost 180 and 0" in {
-      CalculatorService.cost(twoCalls) shouldBe 180
+      CalculatorService.solution(twoCalls) shouldBe 180
     }
   }
 
@@ -171,7 +171,7 @@ class Sky1Spec extends WordSpecLike with Matchers {
 
   "3 calls" should {
     "cost 180, 900 and 0" in {
-      CalculatorService.cost(threeCalls) shouldBe 1080
+      CalculatorService.solution(threeCalls) shouldBe 1080
     }
   }
   //    "0 calls" should {
@@ -188,7 +188,7 @@ class Sky1Spec extends WordSpecLike with Matchers {
       val threeCallsWith2SameDuration = """00:01:00,111-111-111
                                           |00:05:01,222-222-222
                                           |00:05:01,222-222-333""".stripMargin
-      CalculatorService.cost(threeCallsWith2SameDuration) shouldBe 1080
+      CalculatorService.solution(threeCallsWith2SameDuration) shouldBe 1080
     }
   }
 
@@ -199,7 +199,7 @@ class Sky1Spec extends WordSpecLike with Matchers {
                                          |00:01:00,222-222-222
                                          |00:05:01,222-222-333""".stripMargin
 
-      CalculatorService.cost(fourCallsWith2SameDuration) shouldBe 1080
+      CalculatorService.solution(fourCallsWith2SameDuration) shouldBe 1080
     }
   }
 
@@ -217,7 +217,7 @@ class Sky1Spec extends WordSpecLike with Matchers {
                                            |23:05:02,222-222-111
                                            |00:05:01,222-222-333""".stripMargin
 
-      CalculatorService.cost(elevenCallsWith2SameDuration) shouldBe 835380
+      CalculatorService.solution(elevenCallsWith2SameDuration) shouldBe 835380
     }
   }
 
@@ -228,7 +228,7 @@ class Sky1Spec extends WordSpecLike with Matchers {
       val example = """00:01:07,400-234-090
                       |00:05:01,701-080-080
                       |00:05:00,400-234-090""".stripMargin
-      CalculatorService.cost(example) shouldBe 900
+      CalculatorService.solution(example) shouldBe 900
 
     }
   }
