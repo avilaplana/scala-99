@@ -87,11 +87,11 @@ class Sky1Spec extends WordSpecLike with Matchers {
     }
   })
 
-  "telephone call 00:00:45,111-111-111" should {
+  "telephone call 00:00:45,112-112-111" should {
     "be transformend into TelephoneCall object" in {
-      val tc = TelephoneCall("00:00:45,111-111-111")
+      val tc = TelephoneCall("00:00:45,112-112-111")
       tc.durationInSec shouldBe 45
-      tc.numDigit shouldBe 111111111
+      tc.numDigit shouldBe 112112111
     }
   }
 
