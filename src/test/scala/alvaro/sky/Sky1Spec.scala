@@ -8,7 +8,7 @@ import scala.util.matching.Regex
 
 object CalculatorService {
 
-  case class TelephoneCall private(hour: Int, min: Int, sec: Int, num: String) {
+  case class TelephoneCall(hour: Int, min: Int, sec: Int, num: String) {
     val durationInSec: Int = hour * 3600 + min * 60 + sec
     lazy val numDigit = num.filterNot(_ == '-').toInt
   }
