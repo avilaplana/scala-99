@@ -175,4 +175,46 @@ class Sky1Spec extends WordSpecLike with Matchers {
     }
   }
 
+  "00:01:07,400-234-090 00:05:01,701-080-080 00:05:00,400-234-090" should {
+    "be 400234090" in {
+      val example = Seq(TelephoneCall("00:01:07,400-234-090"),
+        TelephoneCall("00:05:01,701-080-080"),
+        TelephoneCall("00:05:00,400-234-090"))
+      TelephoneCall.findFreeNumber(example) shouldBe 400234090
+    }
+  }
+
+  "00:01:07,400-234-090 00:05:01,701-080-080 00:05:00,400-234-090" should {
+    "be 701080080" in {
+      val example = Seq(TelephoneCall("00:06:07,400-234-090"),
+        TelephoneCall("01:05:01,701-080-080"),
+        TelephoneCall("00:05:00,400-234-090"))
+      TelephoneCall.findFreeNumber(example) shouldBe 701080080
+    }
+  }
+
+  "00:01:07,100-000-000 01:07:01,100-000-001 00:01:07,100-000-000 01:07:01,100-000-001" should {
+    "be 100000000" in {
+      val example = Seq(
+        TelephoneCall("00:01:08,100-000-000"),
+        TelephoneCall("00:01:07,100-000-001"),
+        TelephoneCall("01:07:00,100-000-000"),
+        TelephoneCall("01:07:01,100-000-001"))
+      TelephoneCall.findFreeNumber(example) shouldBe 100000000
+    }
+  }
+
+  "00:01:07,100-000-000 01:07:01,100-000-001 00:01:07,100-000-000 01:07:01,100-000-001 02:07:01,100-000-002" should {
+    "be 100000000" in {
+      val example = Seq(
+        TelephoneCall("00:01:08,100-000-000"),
+        TelephoneCall("00:01:07,100-000-001"),
+        TelephoneCall("01:07:00,100-000-000"),
+        TelephoneCall("02:07:01,100-000-002"),
+        TelephoneCall("01:07:01,100-000-001"))
+      TelephoneCall.findFreeNumber(example) shouldBe 100000002
+    }
+  }
+
+
 }
