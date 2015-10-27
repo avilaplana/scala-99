@@ -9,7 +9,7 @@ object Finder {
   def last(list: List[Int]): Option[Int] = {
     list match {
       case Nil => None
-      case head :: tail if tail == Nil => Some(head)
+      case head :: Nil => Some(head)
       case head :: tail => last(tail)
     }
   }
