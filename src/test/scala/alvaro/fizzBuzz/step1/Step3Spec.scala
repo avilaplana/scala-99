@@ -33,27 +33,41 @@ object FizzBuzz3 {
         case n if (n % 3 == 0) => "fizz"
         case n => n.toString
       }
+    numbers.map(p(_)).mkString(" ")
+  }
+}
 
-    def isInt(k: String) = !Seq("lucky", "fizzbuzz", "buzz", "fizz").contains(k)
+object Report {
 
-    def report(r: Map[String, Int]) = {
+  private def visualResults(solution: String) = {
+
+    def counterByElement(sol: String) = {
+      def isInt(k: String) = !Seq("lucky", "fizzbuzz", "buzz", "fizz").contains(k)
+
+      sol.split(" ").map {
+        case e if (isInt(e)) => "integer"
+        case e => e
+      }.groupBy(p => p).map(e => (e._1, e._2.size))
+    }
+
+    def toString(numberElements: Map[String, Int]) = {
       Seq("fizz", "buzz", "fizzbuzz", "lucky", "integer").map {
-        e => s"$e: ${r.get(e).getOrElse("0")}"
+        e => s"$e: ${numberElements.get(e).getOrElse("0")}"
       }.mkString("\n")
     }
 
-    val n = numbers.map(p(_))
-    val gameSolution = n.mkString(" ")
-    val repetitions = n.map {
-      case e if (isInt(e)) => "integer"
-      case e => e
-    }.groupBy(p => p).map(e => (e._1, e._2.size))
-
-    s"""$gameSolution
-        |${report(repetitions)}""".stripMargin
+    toString(counterByElement(solution))
   }
 
+  def report(numbers: Seq[Int]): String = {
+    val gameSolution = FizzBuzz3.play(numbers)
+    val reportSolution = visualResults(gameSolution)
+
+    s"""$gameSolution
+        |${reportSolution}""".stripMargin
+  }
 }
+
 
 class Step3Spec extends WordSpecLike with Matchers {
 
@@ -65,7 +79,7 @@ class Step3Spec extends WordSpecLike with Matchers {
                      |fizzbuzz: 0
                      |lucky: 0
                      |integer: 1""".stripMargin
-      FizzBuzz3.play(Seq(1)) shouldBe output
+      Report.report(Seq(1)) shouldBe output
     }
   }
 
@@ -77,7 +91,7 @@ class Step3Spec extends WordSpecLike with Matchers {
                      |fizzbuzz: 0
                      |lucky: 0
                      |integer: 2""".stripMargin
-      FizzBuzz3.play(Seq(1, 2)) shouldBe output
+      Report.report(Seq(1, 2)) shouldBe output
     }
   }
 
@@ -89,7 +103,7 @@ class Step3Spec extends WordSpecLike with Matchers {
                      |fizzbuzz: 0
                      |lucky: 1
                      |integer: 2""".stripMargin
-      FizzBuzz3.play(Seq(1, 2, 3)) shouldBe output
+      Report.report(Seq(1, 2, 3)) shouldBe output
     }
   }
 
@@ -102,7 +116,7 @@ class Step3Spec extends WordSpecLike with Matchers {
                      |lucky: 2
                      |integer: 10""".stripMargin
 
-      FizzBuzz3.play(Range(1, 21)) shouldBe output
+      Report.report(Range(1, 21)) shouldBe output
 
     }
   }
